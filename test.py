@@ -9,10 +9,11 @@ smsCnt = 0
 while True:
     receiveData = ser.readline().rstrip().decode()
     if (receiveData.__len__() != 0):
-        if (receiveData.__contains__("+CMGL:")):
-            smsCnt = smsCnt + 1
-        elif (receiveData == "OK"):
-            print("Total SMS Count: " +smsCnt.__str__())
-            break
+        if (receiveData != "OK"):
+            if (receiveData.__contains__("+CMGL:")):
+                smsCnt = smsCnt + 1
+            else:
+                print(receiveData)
         else:
-            print(receiveData)
+            print("Total SMS Count: " + smsCnt.__str__())
+            break
