@@ -1,8 +1,18 @@
 import serial
 
 ser = serial.Serial("COM5", 921600)
-inputData = "AT\r"
+inputData = "AT + CMGL = \"ALL\"\r"
 ser.write(inputData.encode())
-discardData = ser.readline() # This statement is used to discard receive data's first line
-receiveData = ser.readline()
-print(receiveData.decode())
+discardData = ser.readline()  # This statement is used to discard receive data's first line
+# print(discardData.rstrip().decode())
+smsCnt = 0
+while True:
+    receiveData = ser.readline().rstrip().decode()
+    if (receiveData.__len__() != 0):
+        if (receiveData.__contains__("+CMGL:")):
+            smsCnt = smsCnt + 1
+        elif (receiveData == "OK"):
+            print("Total SMS Count: " +smsCnt.__str__())
+            break
+        else:
+            print(receiveData)
